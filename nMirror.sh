@@ -257,6 +257,8 @@ tee log.patch <<EOF
 +        LDFLAGS+="-latomic -lstdc++fs"
          ;;
  esac
+ 
+
 EOF
 
 git apply log.patch

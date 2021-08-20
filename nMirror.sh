@@ -84,7 +84,7 @@ if [ "$fetchnext" == true ]; then
     cd $nMirrorDir
     git clone --quiet $libplistGit
     cd $libplistDir
-    git checkout 2.2.0
+    # git checkout 2.2.0 # Cannot go back to the last tag (2.2.0) because usbmuxd2 want 2.2.1 - just get the head for now
 fi
 
 

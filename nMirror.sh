@@ -25,6 +25,7 @@ echo "installing libimobiledevice dependencies"
 sudo apt-get -q install \
                 libplist-dev \
                 libusbmuxd-dev \
+                libimobiledevice-glue-dev \
                 libimobiledevice-dev \
                 libusb-1.0-0-dev \
                 libplist++-dev \
@@ -34,7 +35,10 @@ sudo apt-get -q install \
                 libavahi-client-dev \
                 avahi-utils 
 
-
+echo "installing pythin bindings"
+sudo apt-get install \
+	doxygen \
+	cython
 
 echo "Starting nMirror setup"
 
@@ -123,7 +127,8 @@ if [ "$fetchnext" == true ]; then
     cd $nMirrorDir
     git clone --quiet $libimobiledeviceGit
     cd $libimobiledeviceDir
-    git checkout 1.3.0
+    # git checkout 1.3.0
+    # going to head of master to get 1.3.1
 fi
 
 

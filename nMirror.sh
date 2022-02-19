@@ -46,12 +46,14 @@ echo "The applications needed for nMirror will be installed in $nMirror"
 libplistDir=$nMirrorDir/libplist
 libusbmuxdDir=$nMirrorDir/libusbmuxd
 libimobiledeviceDir=$nMirrorDir/libimobiledevice
+libimobiledeviceGlueDir=$nMirrorDir/libimobiledevice-glue
 libgeneralDir=$nMirrorDir/libgeneral
 usbmuxd2Dir=$nMirrorDir/usbmuxd2
 
 #Standard libimobiledevice repos
 libplistGit=https://github.com/libimobiledevice/libplist.git
 libusbmuxdGit=https://github.com/libimobiledevice/libusbmuxd.git
+libimobiledeviceGlueGit=https://github.com/libimobiledevice/libimobiledevice-glue.git
 libimobiledeviceGit=https://github.com/libimobiledevice/libimobiledevice.git
 
 #tihmstar repo for usbmuxd2 to support network connection to iDevice
@@ -84,7 +86,7 @@ if [ "$fetchnext" == true ]; then
     cd $nMirrorDir
     git clone --quiet $libplistGit
     cd $libplistDir
-    # git checkout 2.2.0 # Cannot go back to the last tag (2.2.0) because usbmuxd2 want 2.2.1 - just get the head for now
+    git checkout a9e34bd29ae9dcdae55bdf5fb8a23c9b1c02eee9
 fi
 
 
@@ -107,6 +109,24 @@ if [ "$fetchnext" == true ]; then
     git checkout 2.0.2
 fi
 
+if test -d $libimobiledeviceGlueDir; then
+    read -p "libimobiledevice-glue directory exists. Remove and re-fetch new? (y/n): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        rm -rf $libimobiledeviceGlueDir
+        fetchnext=true
+    fi
+else
+    fetchnext=true
+fi
+if [ "$fetchnext" == true ]; then
+    echo "Cloning from git.  3.1 - libimobiledevice-glue"
+    cd $nMirrorDir
+    git clone --quiet $libimobiledeviceGlueGit
+    cd $libimobiledeviceGlueDir
+fi
+
 if test -d $libimobiledeviceDir; then
     read -p "libimobiledevice directory exists. Remove and re-fetch new? (y/n): " -n 1 -r
     echo
@@ -123,7 +143,7 @@ if [ "$fetchnext" == true ]; then
     cd $nMirrorDir
     git clone --quiet $libimobiledeviceGit
     cd $libimobiledeviceDir
-    git checkout 1.3.0
+    //git checkout 1.3.0
 fi
 
 
@@ -164,6 +184,7 @@ if [ "$fetchnext" == true ]; then
     cd $nMirrorDir
     git clone --quiet $usbmuxd2Git
     cd $usbmuxd2Dir
+    git checkout 101def817e8763f5bee4a67abf2c976e1fb9e4ee
     git submodule init
     git submodule update
 fi
